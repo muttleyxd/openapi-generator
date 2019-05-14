@@ -10,6 +10,7 @@
 
 {{{defaultInclude}}}
 #include <memory>
+#include <utility>
 #include <corvusoft/restbed/session.hpp>
 #include <corvusoft/restbed/resource.hpp>
 #include <corvusoft/restbed/service.hpp>
@@ -49,6 +50,75 @@ public:
     {{#vendorExtensions.x-codegen-otherMethods}}
     void {{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session);
     {{/vendorExtensions.x-codegen-otherMethods}}
+
+    std::function<std::pair<int, std::string>(
+        {{#hasBodyParam}}
+        restbed::Bytes const &body,
+        {{/hasBodyParam}}
+    
+        {{#hasPathParams}}
+        // Path params
+        {{#pathParams}}
+        {{#isPrimitiveType}}
+        {{{dataType}}} const &{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
+        {{/pathParams}}
+        {{/hasPathParams}}
+        
+        {{#hasQueryParams}}
+        // Getting the query params
+        {{#queryParams}}
+        {{#isPrimitiveType}}
+        {{{dataType}}} const &{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
+        {{/queryParams}}
+        {{/hasQueryParams}}
+        
+        {{#hasHeaderParams}}
+        // Getting the headers
+        {{#headerParams}}
+        {{#isPrimitiveType}}
+        {{{dataType}}} const &{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
+        {{/headerParams}}
+        {{/hasHeaderParams}}
+    )> callback_{{httpMethod}}_ = nullptr;
+
+	{{#vendorExtensions.x-codegen-otherMethods}}
+    std::function<std::pair<int, std::string>(
+        {{#hasBodyParam}}
+        restbed::Bytes const &body,
+        {{/hasBodyParam}}
+    
+        {{#hasPathParams}}
+        // Path params
+        {{#pathParams}}
+        {{#isPrimitiveType}}
+        {{{dataType}}} const &{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
+        {{/pathParams}}
+        {{/hasPathParams}}
+        
+        {{#hasQueryParams}}
+        // Getting the query params
+        {{#queryParams}}
+        {{#isPrimitiveType}}
+        {{{dataType}}} const &{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
+        {{/queryParams}}
+        {{/hasQueryParams}}
+        
+        {{#hasHeaderParams}}
+        // Getting the headers
+        {{#headerParams}}
+        {{#isPrimitiveType}}
+        {{{dataType}}} const &{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
+        {{/headerParams}}
+        {{/hasHeaderParams}}
+    )> callback_{{httpMethod}}_ = nullptr;
+
+   	{{/vendorExtensions.x-codegen-otherMethods}}
 };
 
 {{/operation}}

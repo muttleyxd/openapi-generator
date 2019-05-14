@@ -59,7 +59,8 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 	const auto request = session->get_request();
 	{{#hasBodyParam}}
 	// Body params are present, therefore we have to fetch them
-	int content_length = request->get_header("Content-Length", 0);
+	int content_length;
+	request->get_header("Content-Length", content-length, 0);
 	session->fetch(content_length,
 		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
 		{
@@ -100,10 +101,45 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
+			std::string result = "successful operation";
 			
-			/**
-			 * Process the received information here
-			 */
+			if (callback_{{httpMethod}}_)
+			{
+			    std::tie(status_code, result) = callback_{{httpMethod}}_(
+                    {{#hasBodyParam}}
+                    body,
+                    {{/hasBodyParam}}
+			    
+			        {{#hasPathParams}}
+           			// Path params
+           			{{#pathParams}}
+           			{{#isPrimitiveType}}
+           			{{{paramName}}}{{^-last}},{{/-last}}
+           			{{/isPrimitiveType}}
+           			{{/pathParams}}
+           			{{/hasPathParams}}
+
+       				{{#hasQueryParams}}
+       				,
+					// Getting the query params
+					{{#queryParams}}
+					{{#isPrimitiveType}}
+					{{{paramName}}}{{^-last}},{{/-last}}
+					{{/isPrimitiveType}}
+					{{/queryParams}}
+					{{/hasQueryParams}}
+
+    				{{#hasHeaderParams}}
+    				,
+    				// Getting the headers
+    				{{#headerParams}}
+    				{{#isPrimitiveType}}
+                    {{{paramName}}}{{^-last}},{{/-last}}
+    				{{/isPrimitiveType}}
+    				{{/headerParams}}
+    				{{/hasHeaderParams}}
+			    );
+			}
 			
 			{{#responses}}
 			if (status_code == {{code}}) {
@@ -111,7 +147,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 				// Description: {{description}}
 				session->set_header("{{baseName}}", ""); // Change second param to your header value
 				{{/headers}}
-				session->close({{code}}, "{{message}}", { {"Connection", "close"} });
+				session->close({{code}}, result, { {"Connection", "close"} });
 				return;
 			}
 			{{/responses}}
@@ -127,7 +163,8 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 	const auto request = session->get_request();
 	{{#hasBodyParam}}
 	// Body params are present, therefore we have to fetch them
-	int content_length = request->get_header("Content-Length", 0);
+	int content_length;
+	request->get_header("Content-Length", content_length, 0);
 	session->fetch(content_length,
 		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
 		{
@@ -165,10 +202,45 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
-			
-			/**
-			 * Process the received information here
-			 */
+			std::string result = "successful operation";
+
+			if (callback_{{httpMethod}}_)
+			{
+			    std::tie(status_code, result) = callback_{{httpMethod}}_(
+                    {{#hasBodyParam}}
+                    body,
+                    {{/hasBodyParam}}
+			    
+			        {{#hasPathParams}}
+           			// Path params
+           			{{#pathParams}}
+           			{{#isPrimitiveType}}
+           			{{{paramName}}}{{^-last}},{{/-last}}
+           			{{/isPrimitiveType}}
+           			{{/pathParams}}
+           			{{/hasPathParams}}
+
+       				{{#hasQueryParams}}
+       				,
+					// Getting the query params
+					{{#queryParams}}
+					{{#isPrimitiveType}}
+					{{{paramName}}}{{^-last}},{{/-last}}
+					{{/isPrimitiveType}}
+					{{/queryParams}}
+					{{/hasQueryParams}}
+
+    				{{#hasHeaderParams}}
+    				,
+    				// Getting the headers
+    				{{#headerParams}}
+    				{{#isPrimitiveType}}
+                    {{{paramName}}}{{^-last}},{{/-last}}
+    				{{/isPrimitiveType}}
+    				{{/headerParams}}
+    				{{/hasHeaderParams}}
+			    );
+			}
 			
 			{{#responses}}
 			if (status_code == {{code}}) {
@@ -179,7 +251,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 				// Description: {{description}}
 				session->set_header("{{baseName}}", ""); // Change second param to your header value
 				{{/headers}}
-				session->close({{code}}, "{{message}}", { {"Connection", "close"} });
+				session->close({{code}}, result, { {"Connection", "close"} });
 				return;
 			}
 			{{/responses}}
