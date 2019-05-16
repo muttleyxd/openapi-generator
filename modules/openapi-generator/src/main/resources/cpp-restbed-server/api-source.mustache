@@ -75,7 +75,8 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 	const auto request = session->get_request();
 	{{#hasBodyParam}}
 	// Body params are present, therefore we have to fetch them
-	int content_length = request->get_header("Content-Length", 0);
+	int content_length;
+	request->get_header("Content-Length", content_length, 0);
 	session->fetch(content_length,
 		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
 		{
@@ -147,7 +148,8 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 	const auto request = session->get_request();
 	{{#hasBodyParam}}
 	// Body params are present, therefore we have to fetch them
-	int content_length = request->get_header("Content-Length", 0);
+	int content_length;
+	request->get_header("Content-Length", content_length, 0);
 	session->fetch(content_length,
 		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
 		{
