@@ -127,7 +127,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			}
 
 			{{#responses}}
-			if (status_code == {{code}}) {
+			{{^-first}}else {{/-first}}if (status_code == {{code}}) {
 				{{#headers}}
 				// Description: {{description}}
 				session->set_header("{{baseName}}", ""); // Change second param to your header value
@@ -136,6 +136,9 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 				return;
 			}
 			{{/responses}}
+			else {
+				session->close(502, "Invalid response from callback", { {"Connection", "close"} });
+			}
 
 	{{#hasBodyParam}}
 		});
@@ -197,10 +200,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			}
 
 			{{#responses}}
-			if (status_code == {{code}}) {
-				{{#baseType}}
-				std::shared_ptr<{{.}}> response = NULL;
-				{{/baseType}}
+			{{^-first}}else {{/-first}}if (status_code == {{code}}) {
 				{{#headers}}
 				// Description: {{description}}
 				session->set_header("{{baseName}}", ""); // Change second param to your header value
@@ -209,6 +209,9 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 				return;
 			}
 			{{/responses}}
+			else {
+				session->close(502, "Invalid response from callback", { {"Connection", "close"} });
+			}
 
 	{{#hasBodyParam}}
 		});
