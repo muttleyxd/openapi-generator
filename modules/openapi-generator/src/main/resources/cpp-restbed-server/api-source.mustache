@@ -92,7 +92,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			// Getting the path params
 			{{#pathParams}}
 			{{#isPrimitiveType}}
+			{{^isString}}
+			{{{dataType}}} {{{paramName}}};
+			request->get_path_parameter("{{paramName}}", {{{paramName}}}, {{{defaultValue}}});
+			{{/isString}}
+			{{#isString}}
 			const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isString}}
 			{{/isPrimitiveType}}
 			{{/pathParams}}
 			{{/hasPathParams}}
@@ -101,7 +107,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			// Getting the query params
 			{{#queryParams}}
 			{{#isPrimitiveType}}
+			{{^isString}}
+			{{{dataType}}} {{{paramName}}};
+			request->get_query_parameter("{{paramName}}", {{{paramName}}}, {{{defaultValue}}});
+			{{/isString}}
+			{{#isString}}
 			const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isString}}
 			{{/isPrimitiveType}}
 			{{/queryParams}}
 			{{/hasQueryParams}}
@@ -110,7 +122,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			// Getting the headers
 			{{#headerParams}}
 			{{#isPrimitiveType}}
+			{{^isString}}
+			{{{dataType}}} {{{paramName}}};
+			request->get_header("{{paramName}}", {{{paramName}}}, {{{defaultValue}}});
+			{{/isString}}
+			{{#isString}}
 			const {{{dataType}}} {{{paramName}}} = request->get_header("{{paramName}}", {{{defaultValue}}});
+			{{/isString}}
 			{{/isPrimitiveType}}
 			{{/headerParams}}
 			{{/hasHeaderParams}}
@@ -165,7 +183,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			// Getting the path params
 			{{#pathParams}}
 			{{#isPrimitiveType}}
+			{{^isString}}
+			{{{dataType}}} {{{paramName}}};
+			request->get_path_parameter("{{paramName}}", {{{paramName}}}, {{{defaultValue}}});
+			{{/isString}}
+			{{#isString}}
 			const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isString}}
 			{{/isPrimitiveType}}
 			{{/pathParams}}
 			{{/hasPathParams}}
@@ -174,7 +198,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			// Getting the query params
 			{{#queryParams}}
 			{{#isPrimitiveType}}
+			{{^isString}}
+			{{{dataType}}} {{{paramName}}};
+			request->get_query_parameter("{{paramName}}", {{{paramName}}}, {{{defaultValue}}});
+			{{/isString}}
+			{{#isString}}
 			const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isString}}
 			{{/isPrimitiveType}}
 			{{/queryParams}}
 			{{/hasQueryParams}}
@@ -183,7 +213,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			// Getting the headers
 			{{#headerParams}}
 			{{#isPrimitiveType}}
+			{{^isString}}
+			{{{dataType}}} {{{paramName}}};
+			request->get_header("{{paramName}}", {{{paramName}}}, {{{defaultValue}}});
+			{{/isString}}
+			{{#isString}}
 			const {{{dataType}}} {{{paramName}}} = request->get_header("{{paramName}}", {{{defaultValue}}});
+			{{/isString}}
 			{{/isPrimitiveType}}
 			{{/headerParams}}
 			{{/hasHeaderParams}}
