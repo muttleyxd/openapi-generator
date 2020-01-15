@@ -114,7 +114,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
+                Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t", "uint32_t", "uint64_t"));
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("date", "std::string");
@@ -237,7 +237,20 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         return op;
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        if ("integer".equals(property.baseType)) {
+            if ("uint32".equals(property.dataFormat)) {
+                property.dataType = "std::uint32_t";
+            } else if ("uint64".equals(property.dataFormat)) {
+                property.dataType = "std::uint64_t";
+            }
+        }
+    }
+
+                @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
